@@ -16,12 +16,14 @@ public class LevelLoader : MonoBehaviour
     }
 
     public void LoadNextLevel(string lastSceneBehaviour = "reload") {
-
+        // Debug.Log("Loading next level");
         int nextLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        // Debug.Log("Next level index is " + nextLevel.ToString());
         switch (lastSceneBehaviour) {
             case "reload":
                 if (nextLevel >= SceneManager.sceneCountInBuildSettings)
                 {
+                    // Debug.Log("Level Out of Range, Reloading Level");
                     nextLevel--;
                 }
                 break;
@@ -38,11 +40,13 @@ public class LevelLoader : MonoBehaviour
                 }
                 break;
         }
+        // Debug.Log("Loading level " + nextLevel.ToString());
         SceneManager.LoadScene(nextLevel);
     }
 
     public IEnumerator DelayedLoadNextLevel(float delay)
     {
+        // Debug.Log("Loading next level on delay...");
         yield return new WaitForSeconds(delay);
         LoadNextLevel();
     }

@@ -13,17 +13,16 @@ public class Player : MonoBehaviour
     [Tooltip("How far the ship can move in frame, [xMin, xMax, yMin, yMax]")]
     [SerializeField] Vector4 boundaries = new Vector4(-2, 2, -2, 2);
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    bool playerIsAlive = true;
 
     // Update is called once per frame
     void Update()
     {
-        ProcessMovement();
-        ProcessRotation();
+        if (playerIsAlive)
+        {
+            ProcessMovement();
+            ProcessRotation();
+        }
     }
 
     private void ProcessRotation()
@@ -62,5 +61,10 @@ public class Player : MonoBehaviour
             Mathf.Clamp(transform.localPosition.y + verticalInput * Time.deltaTime * ySpeed, boundaries[2], boundaries[3]),
             transform.localPosition.z
             );
+    }
+
+    public void KillPlayer()
+    {
+        playerIsAlive = false;
     }
 }
