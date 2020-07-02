@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+    [SerializeField] int scoreReward = 100;
+    bool alive = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +22,10 @@ public class Enemy : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
+        if (!alive) { return; }
+        alive = false;
         TriggerExplosionsEffects();
+        AwardPoints();
         StartCoroutine(DestroyGameObject());
     }
 
@@ -44,5 +51,11 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
-    } 
+    }
+
+    private void AwardPoints()
+    {
+        Scoreboard scoreboard = FindObjectOfType<Scoreboard>();
+        scoreboard.AddToScore(scoreReward);
+    }
 }
