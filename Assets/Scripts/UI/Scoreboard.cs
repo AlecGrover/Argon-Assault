@@ -18,7 +18,7 @@ public class Scoreboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        AddToScore(1);
     }
 
     public void AddToScore(int scoreToAdd)
@@ -37,10 +37,11 @@ public class Scoreboard : MonoBehaviour
             logTenOfScore = Mathf.FloorToInt(Mathf.Log10(score)) + 1;
         }
 
-        for (int i = 6 - logTenOfScore; i > 0; i--)
+        for (int i = 6 - Mathf.Min(logTenOfScore, 6); i > 0; i--)
         {
             zeroPrefix += "0";
         }
+
         return zeroPrefix;
     }
 }
