@@ -1,15 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
+[DisallowMultipleComponent]
 public class Enemy : MonoBehaviour
 {
+    [Header("Score Rewards")]
+    [SerializeField] int destroyReward = 100;
+    [SerializeField] int damageReward = 50;
 
-    [SerializeField] int scoreReward = 100;
     bool alive = true;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         
     }
@@ -23,10 +28,24 @@ public class Enemy : MonoBehaviour
     private void OnParticleCollision(GameObject other)
     {
         if (!alive) { return; }
-        alive = false;
+        bool[] dealtDamage = DealDamage();
+        if (dealtDamage[0])
+        {
+            alive = false;
+            StartCoroutine(DestroyGameObject());
+        }
         TriggerExplosionsEffects();
-        AwardPoints();
-        StartCoroutine(DestroyGameObject());
+        if (dealtDamage[1])
+        {
+            AwardPoints();
+        }
+    }
+
+    private bool[] DealDamage()
+    {
+        Health health = GetComponent<Health>();
+        if (!health) { return new[] { true, true }; }
+        return health.DealDamage(50);
     }
 
     private void TriggerExplosionsEffects()
@@ -56,6 +75,14 @@ public class Enemy : MonoBehaviour
     private void AwardPoints()
     {
         Scoreboard scoreboard = FindObjectOfType<Scoreboard>();
-        scoreboard.AddToScore(scoreReward);
+        if (!scoreboard) { return; }
+        if (alive)
+        {
+            scoreboard.AddToScore(damageReward);
+        }
+        else
+        {
+            scoreboard.AddToScore(destroyReward);
+        }
     }
 }

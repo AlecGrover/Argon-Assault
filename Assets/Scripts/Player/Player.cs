@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityStandardAssets.Cameras;
 using UnityStandardAssets.CrossPlatformInput;
 
+[DisallowMultipleComponent]
 public class Player : MonoBehaviour
 {
 
@@ -22,6 +23,17 @@ public class Player : MonoBehaviour
         {
             ProcessMovement();
             ProcessRotation();
+            ProcessWeapons();
+        }
+    }
+
+    private void ProcessWeapons()
+    {
+        bool weaponsFiring = CrossPlatformInputManager.GetButton("Fire1");
+        PlayerWeapons playerWeapons = GetComponentInChildren<PlayerWeapons>();
+        if (playerWeapons)
+        {
+            playerWeapons.SetWeaponsActive(weaponsFiring);
         }
     }
 

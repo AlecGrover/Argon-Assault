@@ -18,7 +18,7 @@ public class Scoreboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AddToScore(1);
+        // AddToScore(1);
     }
 
     public void AddToScore(int scoreToAdd)
