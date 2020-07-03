@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  invulnerabilityTimer: 1
+  invulnerabilityTimer: 0.25
 --- !u!1 &8492093953354992746
 GameObject:
   m_ObjectHideFlags: 0
